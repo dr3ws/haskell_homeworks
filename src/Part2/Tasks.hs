@@ -27,7 +27,17 @@ infixl 6 |*|
 -- Заменить переменную `varName` на `replacement`
 -- во всём выражении `expression`
 replaceVar :: String -> Term -> Term -> Term
-replaceVar = notImplementedYet
+replaceVar varName replacement term = replaceVarable varName replacement term
+
+replaceVarable :: String -> Term -> Term -> Term
+replaceVarable v r t =
+    let
+        replaceVar' rv = replaceVar v r rv
+    in
+        case t of
+            Variable var -> if var == v then r else t
+            BinaryTerm op lhv rhv -> BinaryTerm op (replaceVar' lhv) (replaceVar' rhv)
+            _ -> t
 
 
 
