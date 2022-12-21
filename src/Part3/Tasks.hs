@@ -21,7 +21,7 @@ ff f x = x : ff f (f x)
 -- Дан список чисел. Вернуть самую часто встречающуюся *цифру* в этих числах
 -- (если таковых несколько -- вернуть любую)
 mostFreq :: [Int] -> Int
-mostFreq [] = -1
+mostFreq [] = error "ERROR!!"
 mostFreq [x] = x
 mostFreq lst = fst $ maximumBy (compare `on` snd) elemCount where
     elemCount = nub [(elem, count) | elem <- lst', let count = length (filter (==elem) lst')] where
