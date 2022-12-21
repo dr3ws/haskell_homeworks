@@ -38,9 +38,8 @@ digitCount x = x `mod` 10 : digitCount (x `div` 10)
 -- Дан список lst. Вернуть список элементов из lst без повторений
 -- порядок может быть произвольным.
 uniq :: (Eq a) => [a] -> [a]
-uniq = uniqLst [] where
-    uniqLst lst [] = lst
-    uniqLst lst (h:t) = if h `elem` lst then uniqLst lst t else uniqLst (lst ++ [h]) t
+uniq [] = []
+uniq (h:t) = if h `elem` t then uniq t else (h:) $ uniq t
 
 
 
@@ -48,4 +47,8 @@ uniq = uniqLst [] where
 -- значению результата применения F к элементам Lst ставит в соответствие список элементов Lst,
 -- приводящих к этому результату. Результат следует представить в виде списка пар.
 grokBy :: (Eq k) => (a -> k) -> [a] -> [(k, [a])]
-grokBy f l = notImplementedYet
+-- НЕ РАБОТАЕТ -----------------------------------------------------------------------------------------
+grokBy f [] = []
+grokBy f (h:t) = if f h then [ (x, xs) | x <- h, xs <- h ] else grokBy f t
+
+--grokBy f l = notImplementedYet
