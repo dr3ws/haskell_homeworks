@@ -2,36 +2,63 @@ module Part1.Tasks where
 
 import Util(notImplementedYet)
 
-factorial :: Double -> Double
-factorial fact = if fact <= 1 then 1 else fact * factorial (fact - 1)
+--factorial :: Double -> Double
+--factorial fact = if fact <= 1 then 1 else fact * factorial (fact - 1)
+
+perev:: Double -> Double -> Double
+perev a b = a - b * fromInteger (truncate $ a / b)
 
 -- синус числа (формула Тейлора)
-    -- sin(x) = (x^1)/1! - (x^3)/3! + (x^5)/5! - (x^7)/7! + (x^9)/9! - (x^11)/11! + ...
-mySin :: Double -> Double
-mySin x = taylorSin x 0.0
+{--
+                1     3     5     7     9     11                  2k+1
+               x     x     x     x     x     x              k    x
+     sin(x) = --- - --- + --- - --- + --- - --- + ... + (-1)  ------- + ...
+               1!    3!    5!    7!    9!   11!               (2k+1)!
+-}
 
-    -- y - порядок разложения
-taylorSin :: Double -> Double -> Double
-taylorSin x y = if y == 7
-    then
-        ((-1) ** y * x ** (2 * y + 1)) / factorial (2 * y + 1)
-    else
-        ((-1) ** y * x ** (2 * y + 1)) / factorial (2 * y + 1) + taylorSin x (y + 1)
+mySin :: Double -> Double
+mySin x = taylorSin x 10
+
+taylorSin :: Double -> Integer -> Double
+taylorSin x y = summSeriesSin (perev x (2 * pi)) y
+
+summSeriesSin :: Double -> Integer -> Double
+summSeriesSin x y = sum (listSeriesSin x y)
+
+listSeriesSin:: Double -> Integer -> [Double]
+listSeriesSin x y = [taylorSin' x n | n <- [0..y]]
+
+taylorSin':: Double -> Integer -> Double
+taylorSin' x y | y == 0 = x
+    | otherwise = -x * x / ((2 * k + 1) * 2 * k) * (taylorSin' x (y - 1)) where
+        k = fromInteger y
 
 
 
 -- косинус числа (формула Тейлора)
-    -- cos(x) = (x^0)/0! - (x^2)/2! + (x^4)/4! - (x^6)/6! + (x^8)/8! - (x^10)/10! + ...
-myCos :: Double -> Double
-myCos x = taylorCos x 0.0
+{--
+                0     2     4     6     8     10                  2k
+               x     x     x     x     x     x              k    x
+     cos(x) = --- - --- + --- - --- + --- - --- + ... + (-1)  ------- + ...
+               0!    2!    4!    6!    8!   10!                (2k)!
+-}
 
-    -- y - порядок разложения
-taylorCos :: Double -> Double -> Double
-taylorCos x y = if y == 7
-    then
-        ((-1) ** y * x ** (2 * y)) / factorial (2 * y)
-    else
-        ((-1) ** y * x ** (2 * y)) / factorial (2 * y) + taylorCos x (y + 1)
+myCos :: Double -> Double
+myCos x = taylorCos x 10
+
+taylorCos :: Double -> Integer -> Double
+taylorCos x y = summSeriesCos (perev x (2 * pi)) y
+
+summSeriesCos :: Double -> Integer -> Double
+summSeriesCos x y = sum (listSeriesCos x y)
+
+listSeriesCos:: Double -> Integer -> [Double]
+listSeriesCos x y = [taylorCos' x n | n <- [0..y]]
+
+taylorCos':: Double -> Integer -> Double
+taylorCos' x y | y == 0 = 1
+    | otherwise = -x * x / ((2 * k - 1) * 2 * k) * (taylorCos' x (y - 1)) where
+        k = fromInteger y
 
 
 
