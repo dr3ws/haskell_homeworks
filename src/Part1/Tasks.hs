@@ -7,28 +7,31 @@ factorial fact = if fact <= 1 then 1 else fact * factorial (fact - 1)
 
 -- синус числа (формула Тейлора)
     -- sin(x) = (x^1)/1! - (x^3)/3! + (x^5)/5! - (x^7)/7! + (x^9)/9! - (x^11)/11! + ...
-
 mySin :: Double -> Double
-mySin = notImplementedYet
+mySin x = taylorSin x 0.0
 
--- mySin x = taylorSin x 1.0
-
+    -- y - порядок разложения
 taylorSin :: Double -> Double -> Double
-taylorSin x y | otherwise = if y <= 7 then taylorSin' x y else x
-
-taylorSin' :: Double -> Double -> Double
-taylorSin' x y | otherwise = if y / 2 == 0.0 then
-        taylorSin (x + x ** (2 * y + 1) / factorial (2 * y + 1)) $ y + 1
+taylorSin x y = if y == 7
+    then
+        ((-1) ** y * x ** (2 * y + 1)) / factorial (2 * y + 1)
     else
-        taylorSin (x - x ** (2 * y + 1) / factorial (2 * y + 1)) $ y + 1
+        ((-1) ** y * x ** (2 * y + 1)) / factorial (2 * y + 1) + taylorSin x (y + 1)
 
 
 
 -- косинус числа (формула Тейлора)
     -- cos(x) = (x^0)/0! - (x^2)/2! + (x^4)/4! - (x^6)/6! + (x^8)/8! - (x^10)/10! + ...
-
 myCos :: Double -> Double
-myCos = notImplementedYet
+myCos x = taylorCos x 0.0
+
+    -- y - порядок разложения
+taylorCos :: Double -> Double -> Double
+taylorCos x y = if y == 7
+    then
+        ((-1) ** y * x ** (2 * y)) / factorial (2 * y)
+    else
+        ((-1) ** y * x ** (2 * y)) / factorial (2 * y) + taylorCos x (y + 1)
 
 
 

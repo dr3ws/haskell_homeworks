@@ -1,6 +1,6 @@
 module Part3.Tasks where
 
-import Data.List (nub, maximumBy)
+import Data.List (nub, nubBy, maximumBy)
 import Data.Function (on)
 import Util (notImplementedYet)
 
@@ -47,8 +47,12 @@ uniq (h:t) = if h `elem` t then uniq t else (h:) $ uniq t
 -- значению результата применения F к элементам Lst ставит в соответствие список элементов Lst,
 -- приводящих к этому результату. Результат следует представить в виде списка пар.
 grokBy :: (Eq k) => (a -> k) -> [a] -> [(k, [a])]
--- НЕ РАБОТАЕТ -----------------------------------------------------------------------------------------
 grokBy f [] = []
-grokBy f (h:t) = if f h then [ (x, xs) | x <- h, xs <- h ] else grokBy f t
+grokBy f l = map (\ k -> (k, filter (\ x -> f x == k) l)) uniqL where
+    k = map f l
+    uniqL = uniq k
 
---grokBy f l = notImplementedYet
+
+
+--grokBy f [] = []
+--grokBy f (h:t) = if f h then [ (x, xs) | x <- h, xs <- h ] else grokBy f t
