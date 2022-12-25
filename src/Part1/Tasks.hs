@@ -5,8 +5,8 @@ import Util(notImplementedYet)
 --factorial :: Double -> Double
 --factorial fact = if fact <= 1 then 1 else fact * factorial (fact - 1)
 
-perev:: Double -> Double -> Double
-perev a b = a - b * fromInteger (truncate $ a / b)
+ostatok :: Double -> Double -> Double
+ostatok a b = a - b * fromInteger (truncate $ a / b)
 
 -- синус числа (формула Тейлора)
 {--
@@ -20,7 +20,7 @@ mySin :: Double -> Double
 mySin x = taylorSin x 10
 
 taylorSin :: Double -> Integer -> Double
-taylorSin x y = summSeriesSin (perev x (2 * pi)) y
+taylorSin x y = summSeriesSin (ostatok x (2 * pi)) y
 
 summSeriesSin :: Double -> Integer -> Double
 summSeriesSin x y = sum (listSeriesSin x y)
@@ -47,7 +47,7 @@ myCos :: Double -> Double
 myCos x = taylorCos x 11
 
 taylorCos :: Double -> Integer -> Double
-taylorCos x y = summSeriesCos (perev x (2 * pi)) y
+taylorCos x y = summSeriesCos (ostatok x (2 * pi)) y
 
 summSeriesCos :: Double -> Integer -> Double
 summSeriesCos x y = sum (listSeriesCos x y)
