@@ -44,7 +44,7 @@ taylorSin' x y | y == 0 = x
 -}
 
 myCos :: Double -> Double
-myCos x = taylorCos x 10
+myCos x = taylorCos x 11
 
 taylorCos :: Double -> Integer -> Double
 taylorCos x y = summSeriesCos (perev x (2 * pi)) y
